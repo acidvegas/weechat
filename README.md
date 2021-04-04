@@ -12,12 +12,13 @@
 - [Proxy](#proxy)
 - [Relay](#relay)
 - [Keys](#keys)
+- [Todo](#todo)
 
 ---
 
 ### Setup
 ###### WeeChat
-```
+```shell
 weechat -P "alias,buflist,charset,exec,fifo,fset,irc,perl,python,relay,script,trigger" -r "/set weechat.plugin.autoload alias,buflist,charset,exec,fifo,fset,irc,perl,python,relay,script,trigger;/save;/quit"
 rm $HOME/.weechat/weechat.log && chmod 700 $HOME/.weechat && mkdir $HOME/.weechat/ssl
 git clone --depth 1 https://github.com/acidvegas/weechat.git $HOME/weechat
@@ -28,7 +29,7 @@ chmod 400 $HOME/.weechat/ssl/cert.pem
 ```
 
 ###### Relay
-```
+```shell
 certbot certonly --standalone -d chat.acid.vegas -m acid.vegas@acid.vegas
 
 echo -e "[Unit]\nDescription=cerbot renewal\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/certbot renew -n --quiet --agree-tos --deploy-hook /home/acidvegas/.weechat/renew" > /etc/systemd/system/certbot.service
@@ -40,6 +41,11 @@ echo "cat /etc/letsencrypt/live/chat.acid.vegas/fullchain.pem /etc/letsencrypt/l
 echo "chown -R acidvegas:acidvegas /home/acidvegas/.weechat/ssl/relay.pem && chmod 400 /home/acidvegas/.weechat/ssl/relay.pem" >> /home/acidvegas/.weechat/renew
 echo "printf '%b' '*/relay sslcertkey\n' > /home/acidvegas/.weechat/weechat_fifo" >> /home/acidvegas/.weechat/renew
 chmod +x /home/acidvegas/.weechat/renew
+
+mkdir -p $HOME/.config/systemd/user
+echo -e "[Unit]\nDescription=headless weechat relay service\nAfter=network.target\n\n[Service]\nType=forking\nExecStart=/usr/bin/weechat-headless --daemon\n\n[Install]\nWantedBy=default.target" > $HOME/.config/systemd/user/weechat-headless.service
+systemctl --user enable weechat-headless
+echo "start weechat with systemctl --user enable weechat-headless"
 ```
 
 ---
@@ -294,3 +300,11 @@ chmod +x /home/acidvegas/.weechat/renew
 | Ctrl + c, o  | Insert code for color reset     | /input insert \x0F |
 | Ctrl + c, v  | Insert code for reverse color   | /input insert \x16 |
 | Ctrl + c, _  | Insert code for underlined text | /input insert \x1F |
+
+---
+
+### Todo
+- Script update notifications and updater
+- Commands information
+- Ascii play alias
+- tdfiglet & png2ansi
