@@ -24,7 +24,7 @@
 ### Setup
 ###### WeeChat
 ```shell
-weechat -P "alias,buflist,charset,exec,fifo,fset,irc,perl,python,relay,script,trigger" -r "/set weechat.plugin.autoload alias,buflist,charset,exec,fifo,fset,irc,perl,python,relay,script,trigger;/save;/quit"
+weechat -P "alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger" -r "/set weechat.plugin.autoload alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger;/save;/quit"
 rm $HOME/.weechat/weechat.log && chmod 700 $HOME/.weechat && mkdir $HOME/.weechat/ssl
 git clone --depth 1 https://github.com/acidvegas/weechat.git $HOME/weechat
 mv $HOM    E/weechat/alias.conf $HOME/.weechat/alias.conf && mv $HOME/weechat/scripts/perl/*.pl $HOME/.weechat/perl/autoload/ && mv $HOME/weechat/scripts/python/*.py $HOME/.weechat/python/autoload/
@@ -120,21 +120,30 @@ systemctl --user enable weechat-headless
 
 ###### Settings
 ```
-/set buflist.look.mouse_wheel         off
-/set buflist.look.mouse               off
-/set fifo.file.path                   "${weechat_data_dir}/weechat_fifo"
-/set irc.look.buffer_switch_autojoin  off
-/set irc.look.buffer_switch_join      on
-/set irc.look.join_auto_add_chantype  on
-/set irc.look.smart_filter            off
-/set irc.look.temporary_servers       on
-/set irc.network.ban_mask_default     "*!*@$host"
-/set logger.file.auto_log             off
-/set sec.crypt.hash_algo              sha512
-/set weechat.look.confirm_quit        on
-/set weechat.look.highlight           "acidvegas,supernets,super nets"
-/set weechat.look.mouse               on
-/set weechat.plugin.autoload          "alias,buflist,charset,exec,fifo,fset,irc,perl,python,relay,script,trigger"
+/set buflist.look.mouse_wheel               off
+/set buflist.look.mouse                     off
+/set fifo.file.path                         "${weechat_data_dir}/weechat_fifo"
+/set irc.look.buffer_switch_autojoin        off
+/set irc.look.buffer_switch_join            on
+/set irc.look.join_auto_add_chantype        on
+/set irc.look.smart_filter                  off
+/set irc.look.temporary_servers             on
+/set irc.network.ban_mask_default           "*!*@$host"
+/set sec.crypt.hash_algo                    sha512
+/set weechat.look.confirm_quit              on
+/set weechat.look.highlight                 "acidvegas,supernets,super nets"
+/set weechat.look.mouse                     on
+/set weechat.plugin.autoload                "alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger"
+/set logger.file.color_lines                on
+/set logger.file.auto_log                   off
+/set logger.file.rotation_compression_type  gzip
+/set logger.file.rotation_compression_level 80
+/set logger.file.rotation_size_max          "1g"
+/set logger.file.time_format                "%Y-%m-%d %H:%M"
+/set logger.level.irc                       0
+/set logger.level.core.weechat              0
+/set logger.mask.irc                        "$server/$channel.log"
+
 ```
 
 ###### IRC
