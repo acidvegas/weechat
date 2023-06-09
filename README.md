@@ -56,11 +56,12 @@ systemctl --user enable weechat-headless
 ### Settings
 ###### Appearance
 ```
-/set buflist.format.buffer              "${if:${type}==server?${if:${window[gui_current_window].buffer.local_variables.server}==${buffer.local_variables.server}?${if:${irc_server.is_connected}?${color:green,235}:${color:lightred,235}}• ${color:default,235}${name}:${if:${irc_server.is_connected}?${color:green,235}:${color:lightred,235}}• ${color:default,235}${indent}${name}}:}${if:${type}=~(channel|private)?${color_hotlist}${indent}${name}:}${if:${type}!~(channel|private|server)?${color:gray}${name}:}"
-/set buflist.format.buffer_current      "${if:${type}==server?${if:${window[gui_current_window].buffer.local_variables.server}==${buffer.local_variables.server}?${color:lightred}${if:${irc_server.is_connected}?${color:green,235}:${color:lightred,235}}• ${name}${format_hotlist}:${color:237}${if:${irc_server.is_connected}?${color:green,235}:${color:lightred,235}}• ${name}}${format_lag}${format_hotlist}:${if:${type}=~(channel|private)?• ${name}:${if:${type}!~(channel|private|server)?${color:lightblue}${name}:}}}"
+/set buflist.format.buffer              "${if:${type}==server?${if:${window[gui_current_window].buffer.local_variables.server}==${buffer.local_variables.server}?${color:235,235}${format_number}${if:${irc_server.is_connected}?${color:green,235}:${color:lightred,235}}• ${color:default,235}${name}:${color:235,235}${format_number}${if:${irc_server.is_connected}?${color:green,235}:${color:lightred,235}}• ${color:default,235}${indent}${name}}:}${if:${type}=~(channel|private)?${format_number}${color_hotlist}${indent}${name}:}${if:${type}!~(channel|private|server)?${format_number}${color:gray}  ${name}:}"
+/set buflist.format.buffer_current      "${if:${type}==server?${if:${window[gui_current_window].buffer.local_variables.server}==${buffer.local_variables.server}?${color:lightred}${if:${irc_server.is_connected}?${color:235,235}${format_number}${color:green,235}:${color:lightred,235}}• ${name}${format_hotlist}:${color:237}${if:${irc_server.is_connected}?${color:235,235}${format_number}${color:green,235}:${color:lightred,235}}• ${name}}${format_lag}${format_hotlist}:${if:${type}=~(channel|private)?${format_number}• ${color:lightgreen}${name}:${if:${type}!~(channel|private|server)?${format_number}${color:lightgreen}  ${name}:}}}"
 /set buflist.format.hotlist_highlight   "${color:yellow}"
 /set buflist.format.hotlist_message     "${color:cyan}"
 /set buflist.format.hotlist_private     "${color:yellow}"
+/set buflist.format.number              "${color:235}${number}${if:${number_displayed}? │: }"
 /set irc.color.input_nick               default
 /set irc.color.nick_prefixes            "y:green;q:green;a:lightred;o:red;h:yellow;v:lightblue;*:lightmagenta"
 /set irc.color.reason_quit              darkgray
@@ -84,7 +85,6 @@ systemctl --user enable weechat-headless
 /set weechat.bar.title.color_bg         black
 /set weechat.bar.title.separator        off
 /set weechat.bar.title.size_max         2
-/set weechat.look.chat_space_right      on
 /set weechat.color.chat_delimiters      darkgray
 /set weechat.color.chat_highlight_bg    default
 /set weechat.color.chat_host            darkgray
@@ -103,6 +103,7 @@ systemctl --user enable weechat-headless
 /set weechat.look.bar_more_right        "▶"
 /set weechat.look.bar_more_up           "▲"
 /set weechat.look.buffer_time_format    " %H:%M"
+/set weechat.look.chat_space_right      on
 /set weechat.look.day_change            off
 /set weechat.look.item_buffer_filter    "•"
 /set weechat.look.prefix_align_max      15
@@ -182,10 +183,16 @@ systemctl --user enable weechat-headless
 
 ###### Scripts
 ```
+/set plugins.var.perl.antifuck.autopart           1
+/set plugins.var.perl.antifuck.nobufs             1
+/set plugins.var.perl.fuckyou.forcejoin           SAJOIN
+/set plugins.var.perl.fuckyou.forcepart           SAPART
+/set plugins.var.perl.fuckyou.furry               &ENTERTHEVOID
+/set plugins.var.perl.fuckyou.parallel            25
 /set plugins.var.perl.highmon.first_run           false
 /set plugins.var.perl.highmon.short_names         on
 /set plugins.var.perl.keepnick.default_enable     1
-/set plugins.var.perl.multiline.weechat_paste_fix "off"
+/set plugins.var.perl.multiline.weechat_paste_fix off
 ```
 
 ---
