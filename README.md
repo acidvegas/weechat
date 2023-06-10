@@ -11,6 +11,7 @@
   - [IRC](#appearance)
   - [CTCP](#appearance)
   - [Scripts](#appearance)
+- [Aliases](#aliases)
 - [Triggers](#triggers)
 - [Servers](#servers)
 - [Services](#services)
@@ -137,6 +138,7 @@ systemctl --user enable weechat-headless
 /set weechat.plugin.autoload                "alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger"
 /set logger.file.color_lines                on
 /set logger.file.auto_log                   off
+/set logger.look.backlog                    0
 /set logger.file.rotation_compression_type  gzip
 /set logger.file.rotation_compression_level 80
 /set logger.file.rotation_size_max          "1g"
@@ -197,6 +199,12 @@ systemctl --user enable weechat-headless
 
 ---
 
+### Aliases
+
+See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) file.
+
+---
+
 ### Triggers
 ```
 /trigger del beep
@@ -204,9 +212,8 @@ systemctl --user enable weechat-headless
 /trigger add input_command_color modifier "500|input_text_display"     "${tg_string} =~ ^/($|[^/])" "#/(.+)#${color:39}/${color:74}${re:1}#"
 /trigger add numberjump          modifier "2000|input_text_for_buffer" "${tg_string} =~ ^/[0-9]+$" "=\/([0-9]+)=/buffer *${re:1}=" "" "" "none"
 /trigger add url_color           modifier "weechat_print"              "${tg_tags} !~ irc_quit" ";[a-z]+://\S+;${color:32}${color:underline}${re:0}${color:-underline}${color:reset};" ""
-/trigger add relay_awayclear     signal relay_client_connected         "" "" "/away -all"
-/trigger add relay_setaway       signal relay_client_disconnected      "" "" "/away -all I am away"
-/trigger add relay_setaway       signal relay_client_disconnected      "${info:relay_client_count,connected} == 0" "" "/away -all I am away"
+/trigger add relay_away_off      signal   relay_client_connected       "" "" "/away -all"
+/trigger add relay_away_on       signal   relay_client_disconnected    "${info:relay_client_count,connected} == 0" "" "/away -all I am away"
 ```
 
 ---
@@ -219,7 +226,6 @@ systemctl --user enable weechat-headless
 /server add efnet     irc.servercentral.net/9999 -tls
 /server add libera    irc.libera.chat/6697       -tls
 /server add gamesurge irc.gamesurge.net
-/server add ircd      ircd.chat/6697             -tls
 /server add ircstorm  irc.ircstorm.net/6699      -tls
 /server add malvager  irc.malvager.net/6697      -tls
 /serber add netsec    irc.priv8.chat/6697        -tls
@@ -233,12 +239,15 @@ systemctl --user enable weechat-headless
 /server add wtfux     irc.wtfux.org/6697         -tls
 
 /set irc.server.2f30.autojoin      #2f30
+/set weechat.notify.irc.22f30      highlight
 /set irc.server.anope.autojoin     #anope
 /set irc.server.blacknd.autojoin   #blacknd,#chat
 /set irc.server.efnet.autojoin     #2600,#efnetnews,#exchange,#irc30,#lrh
-/set irc.server.libera.autojoin    #archlinux,#ircv3,#matrix,#music-theory,#python,#raspberrypi,#weechat
 /set irc.server.gamesurge.autojoin #worms
-/set irc.server.ircd.autojoin      #tcpdirect
+/set weechat.notify.irc.gamesurge  highlight
+/set irc.server.ircstorm.autojoin  #schizophrenia
+/set irc.server.libera.autojoin    #archlinux,#ircv3,#matrix,#music-theory,#python,#raspberrypi,#weechat
+/set weechat.notify.irc.libera     message
 /set irc.server.malvager.autojoin  #malvager
 /set irc.server.netsec.autojoin    #ch@s
 /set irc.server.sandnet.autojoin   #arab
@@ -249,6 +258,7 @@ systemctl --user enable weechat-headless
 /set irc.server.wormnet.autojoin   #anythinggoes
 /set irc.server.wormnet.password   ELSILRACLIHP
 /set irc.server.wormnet.realname   "48 0 US 3.7.2.1"
+/set weechat.notify.irc.wormnet    highlight
 /set irc.server.wtfux.autojoin     #ED,#wtfux
 ```
 
