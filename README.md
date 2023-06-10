@@ -5,6 +5,7 @@
 - [Setup](#setup)
   - [WeeChat](#weechat)
   - [Relay](#relay)
+  - [Docker](#docker)
 - [Settings](#settings)
   - [Appearance](#appearance)
   - [Settings](#appearance)
@@ -50,6 +51,22 @@ chmod +x /home/acidvegas/.weechat/renew
 mkdir -p $HOME/.config/systemd/user
 echo -e "[Unit]\nDescription=headless weechat relay service\nAfter=network.target\n\n[Service]\nType=forking\nExecStart=/usr/bin/weechat-headless --daemon\n\n[Install]\nWantedBy=default.target" > $HOME/.config/systemd/user/weechat-headless.service
 systemctl --user enable weechat-headless
+```
+
+###### Docker
+```shell
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl gnupg2 software-properties-common
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+sudo apt update
+apt-cache policy docker-ce
+sudo apt install docker-ce
+sudo usermod -aG docker ${USER}
+su - ${USER}
+
+mkdir -p ~/.weechat-container
+docker run -ti -v $HOME/.weechat-container:/home/user/.weechat weechat -d /home/user/.weechat
 ```
 
 ---
