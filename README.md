@@ -64,9 +64,13 @@ apt-cache policy docker-ce
 sudo apt install docker-ce
 sudo usermod -aG docker ${USER}
 su - ${USER}
+```
 
-mkdir -p ~/.weechat-container
-docker run -ti -v $HOME/.weechat-container:/home/user/.weechat weechat -d /home/user/.weechat
+```
+mkdir -p ~/docker/weechat/data
+mkdir -p ~/docker/weechat/config
+docker run -it -d --restart unless-stopped -v "~/docker/weechat/data:/home/user/.weechat" -v "~/docker/weechat/config:/home/user/.config/weechat" --name weechat weechat/weechat:latest-alpine`
+docker attach weechat # Detach with CTRL-p CTRL-q
 ```
 
 ---
