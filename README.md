@@ -215,7 +215,6 @@ docker attach weechat # Detach with CTRL-p CTRL-q
 /set plugins.var.perl.highmon.first_run           false
 /set plugins.var.perl.highmon.short_names         on
 /set plugins.var.perl.keepnick.default_enable     1
-/set plugins.var.perl.multiline.weechat_paste_fix off
 ```
 
 ---
