@@ -29,7 +29,7 @@
 ### Setup
 ###### WeeChat
 ```shell
-weechat -P "alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger" -r "/set weechat.plugin.autoload alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger;/save;/quit"
+weechat -P "alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger,typing" -r "/set weechat.plugin.autoload alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger,typing;/save;/quit"
 rm $HOME/.weechat/weechat.log && chmod 700 $HOME/.weechat && mkdir $HOME/.weechat/ssl
 git clone --depth 1 https://github.com/acidvegas/weechat.git $HOME/weechat
 mv $HOM    E/weechat/alias.conf $HOME/.weechat/alias.conf && mv $HOME/weechat/scripts/perl/*.pl $HOME/.weechat/perl/autoload/ && mv $HOME/weechat/scripts/python/*.py $HOME/.weechat/python/autoload/
@@ -154,8 +154,10 @@ docker attach weechat # Detach with CTRL-p CTRL-q
 /set irc.look.join_auto_add_chantype        on
 /set irc.look.smart_filter                  off
 /set irc.look.temporary_servers             on
+/set irc.look.typing_status_nicks           on
 /set irc.network.ban_mask_default           "*!*@$host"
 /set sec.crypt.hash_algo                    sha512
+/set typing.look.enabled_nicks              on
 /set weechat.look.confirm_quit              on
 /set weechat.look.highlight                 "acidvegas,supernets,super nets"
 /set weechat.look.mouse                     on
@@ -237,6 +239,15 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /trigger add url_color           modifier "weechat_print"              "${tg_tags} !~ irc_quit" ";[a-z]+://\S+;${color:32}${color:underline}${re:0}${color:-underline}${color:reset};" ""
 /trigger add relay_away_off      signal   relay_client_connected       "" "" "/away -all"
 /trigger add relay_away_on       signal   relay_client_disconnected    "${info:relay_client_count,connected} == 0" "" "/away -all I am away"
+```
+
+- Highmon
+```
+/eval /set weechat.startup.command_after_plugins "${weechat.startup.command_after_plugins};/buffer add highmon"
+/buffer_autoset add core.highmon title Highlight Monitor
+/trigger add highmon_like print "*;irc_privmsg"
+/trigger set highmon_like conditions "${tg_highlight} == 1 && ${tg_displayed} == 1 && ${buffer.local_variables.type} == channel"
+/trigger set highmon_like command "/print -newbuffer highmon -tags ${tg_tags} ${color:${info:nick_color_name,${server}}}${cut:4,${color:${weechat.color.chat_prefix_more}}${weechat.look.prefix_buffer_align_more},${server}}${color:${info:nick_color_name,${channel}}}${channel}\t${if:${tg_tags} !~ ,irc_action,?${weechat.look.quote_nick_prefix}${tg_prefix}${color:reset}${weechat.look.quote_nick_suffix}:${tg_prefix}${color:reset}} ${tg_message}"
 ```
 
 ---
