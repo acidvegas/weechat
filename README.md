@@ -98,13 +98,13 @@ docker attach weechat # Detach with CTRL-p CTRL-q
 /set weechat.bar.buflist.size_max       20
 /set weechat.bar.fset.separator         off
 /set weechat.bar.input.color_delim      darkgray
-/set weechat.bar.input.conditions       "${window.buffer.full_name} != perl.highmon"
+/set weechat.bar.input.conditions       "${window.buffer.full_name} != highmon"
 /set weechat.bar.input.items            "[input_prompt]+(away),[input_search],[input_paste],input_text"
 /set weechat.bar.input.separator        off
 /set weechat.bar.nicklist.size_max      15
 /set weechat.bar.status.color_bg        default
 /set weechat.bar.status.color_delim     darkgray
-/set weechat.bar.status.conditions      "${window.buffer.full_name} != perl.highmon"
+/set weechat.bar.status.conditions      "${window.buffer.full_name} != highmon"
 /set weechat.bar.status.items           "buffer_name+(buffer_modes)+[buffer_nicklist_count]"
 /set weechat.bar.status.separator       off
 /set weechat.bar.title.color_bg         black
@@ -217,8 +217,6 @@ docker attach weechat # Detach with CTRL-p CTRL-q
 /set plugins.var.perl.fuckyou.forcepart           SAPART
 /set plugins.var.perl.fuckyou.furry               &ENTERTHEVOID
 /set plugins.var.perl.fuckyou.parallel            25
-/set plugins.var.perl.highmon.first_run           false
-/set plugins.var.perl.highmon.short_names         on
 /set plugins.var.perl.keepnick.default_enable     1
 ```
 
@@ -241,13 +239,11 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /trigger add relay_away_on       signal   relay_client_disconnected    "${info:relay_client_count,connected} == 0" "" "/away -all I am away"
 ```
 
-- Highmon
+- Highlight monitor *(This can cmpletely replace [highmon.pl](https://weechat.org/scripts/source/highmon.pl.html/))*
 ```
-/eval /set weechat.startup.command_after_plugins "${weechat.startup.command_after_plugins};/buffer add highmon"
-/buffer_autoset add core.highmon title Highlight Monitor
 /trigger add highmon_like print "*;irc_privmsg"
 /trigger set highmon_like conditions "${tg_highlight} == 1 && ${tg_displayed} == 1 && ${buffer.local_variables.type} == channel"
-/trigger set highmon_like command "/print -newbuffer highmon -tags ${tg_tags} ${color:${info:nick_color_name,${server}}}${cut:4,${color:${weechat.color.chat_prefix_more}}${weechat.look.prefix_buffer_align_more},${server}}${color:${info:nick_color_name,${channel}}}${channel}\t${if:${tg_tags} !~ ,irc_action,?${weechat.look.quote_nick_prefix}${tg_prefix}${color:reset}${weechat.look.quote_nick_suffix}:${tg_prefix}${color:reset}} ${tg_message}"
+/trigger set highmon_like command "/print -newbuffer highmon -tags ${tg_tags} ${color:${info:nick_color_name,${server}}}${color:${weechat.color.chat_prefix_more}}${weechat.look.prefix_buffer_align_more}${color:${info:nick_color_name,${channel}}}${channel}\t${if:${tg_tags} !~ ,irc_action,?${weechat.look.quote_nick_prefix}${tg_prefix}${color:reset}${weechat.look.quote_nick_suffix}:${tg_prefix}${color:reset}} ${tg_message}"
 ```
 
 ---
