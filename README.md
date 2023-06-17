@@ -1,6 +1,8 @@
 # WeeChat
 > backup of my weechat setup
 
+![](preview.png)
+
 ## Table of Contents
 - [Setup](#setup)
   - [WeeChat](#weechat)
