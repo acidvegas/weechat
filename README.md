@@ -14,6 +14,7 @@
   - [Scripts](#appearance)
 - [Aliases](#aliases)
 - [Triggers](#triggers)
+- [Filters](#filters	)
 - [Servers](#servers)
 - [Services](#services)
 - [Proxy](#proxy)
@@ -235,6 +236,16 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /trigger add relay_away_off      signal   relay_client_connected       "" "" "/away -all"
 /trigger add relay_away_on       signal   relay_client_disconnected    "${info:relay_client_count,connected} == 0" "" "/away -all I am away"
 ```
+
+---
+
+### Filters
+
+**NOTE:** All filters can be toggled on/off with the `ALT + =` keyboard shortcut.
+
+- Hide everything that is not a channel message *(useful for reading backlog)*:
+
+`/filter add crap * irc_join,irc_part,irc_quit,irc_mode,irc_topic,irc_nick,irc_account,irc_quit *`
 
 ---
 
