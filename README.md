@@ -263,6 +263,7 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /server add 2f30      irc.2f30.org/6697          -tls
 /server add anope     irc.anope.org/6697         -tls
 /server add blcknd    irc.blcknd.net/6697        -tls
+/server add buttes    irc.buttes.org/6697        -tls
 /server add efnet     irc.servercentral.net/9999 -tls
 /server add libera    irc.libera.chat/6697       -tls
 /server add gamesurge irc.gamesurge.net
@@ -282,6 +283,7 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /set weechat.notify.irc.22f30      highlight
 /set irc.server.anope.autojoin     #anope
 /set irc.server.blacknd.autojoin   #blacknd,#chat
+/set irc.server.buttes.autojoin    #gamme
 /set irc.server.efnet.autojoin     #2600,#efnetnews,#exchange,#irc30,#lrh
 /set irc.server.gamesurge.autojoin #worms
 /set weechat.notify.irc.gamesurge  highlight
