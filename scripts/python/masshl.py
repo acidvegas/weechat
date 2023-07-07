@@ -13,7 +13,7 @@ def timer_cb(data, remaining_calls):
 			while '%n' in msg:
 				msg = msg.replace('%n', nicks[0], 1)
 				nicks.pop(0)
-			weechat.command(chan, msg))
+			weechat.command(chan, msg)
 	except:
 		pass
 	finally:
