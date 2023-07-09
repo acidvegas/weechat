@@ -16,7 +16,7 @@
   - [Scripts](#appearance)
 - [Aliases](#aliases)
 - [Triggers](#triggers)
-- [Filters](#filters	)
+- [Filters](#filters)
 - [Servers](#servers)
 - [Services](#services)
 - [Proxy](#proxy)
@@ -42,15 +42,15 @@ chmod 400 $HOME/.weechat/ssl/cert.pem
 ###### Relay
 ```shell
 certbot certonly --standalone -d chat.acid.vegas -m acid.vegas@acid.vegas
-echo -e "[Unit]\nDescription=cerbot renewal\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/certbot renew -n --quiet --agree-tos --deploy-hook /home/acidvegas/.weechat/renew" > /etc/systemd/system/certbot.service
+echo -e "[Unit]\nDescription=cerbot renewal\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/certbot renew -n --quiet --agree-tos --deploy-hook /home/acidvegas/.local/share/weechat/renew" > /etc/systemd/system/certbot.service
 echo -e "[Unit]\nDescription=cerbot renewal timer\n\n[Timer]\nOnCalendar=0/12:00:00\nRandomizedDelaySec=1h\nPersistent=true\n\n[Install]\nWantedBy=timers.target" > /etc/systemd/system/certbot.timer
 systemctl enable certbot.timer && systemctl start certbot.timer
 
 echo "#!/bin/bash" > /home/acidvegas/.weechat/renew
-echo "cat /etc/letsencrypt/live/chat.acid.vegas/fullchain.pem /etc/letsencrypt/live/chat.acid.vegas/privkey.pem > /home/acidvegas/.weechat/ssl/relay.pem" >> /home/acidvegas/.weechat/renew
-echo "chown -R acidvegas:acidvegas /home/acidvegas/.weechat/ssl/relay.pem && chmod 400 /home/acidvegas/.weechat/ssl/relay.pem" >> /home/acidvegas/.weechat/renew
-echo "printf '%b' '*/relay sslcertkey\n' > /home/acidvegas/.weechat/weechat_fifo" >> /home/acidvegas/.weechat/renew
-chmod +x /home/acidvegas/.weechat/renew
+echo "cat /etc/letsencrypt/live/chat.acid.vegas/fullchain.pem /etc/letsencrypt/live/chat.acid.vegas/privkey.pem > /home/acidvegas/.config/weechat/tls/relay.pem" >> /home/acidvegas/.local/share/weechat/renew
+echo "chown -R acidvegas:acidvegas /home/acidvegas/.weechat/tls/relay.pem && chmod 400 /home/acidvegas/.confg/weechat/tls/relay.pem" >> /home/acidvegas/.local/share/weechat/renew
+echo "printf \'%b\' \'*/relay tlscertkey\n\' > /run/user/1000/weechat/weechat_fifo" >> /home/acidvegas/.local/share/weechat/renew
+chmod +x /home/acidvegas/.local/share/weechat/renew
 
 mkdir -p $HOME/.config/systemd/user
 echo -e "[Unit]\nDescription=headless weechat relay service\nAfter=network.target\n\n[Service]\nType=forking\nExecStart=/usr/bin/weechat-headless --daemon\n\n[Install]\nWantedBy=default.target" > $HOME/.config/systemd/user/weechat-headless.service
@@ -68,9 +68,7 @@ apt-cache policy docker-ce
 sudo apt install docker-ce
 sudo usermod -aG docker ${USER}
 su - ${USER}
-```
 
-```
 mkdir -p ~/docker/weechat/data
 mkdir -p ~/docker/weechat/config
 docker run -it -d --restart unless-stopped -v "~/docker/weechat/data:/home/user/.weechat" -v "~/docker/weechat/config:/home/user/.config/weechat" --name weechat weechat/weechat:latest-alpine`
