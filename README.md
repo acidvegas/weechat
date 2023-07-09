@@ -34,6 +34,7 @@ rm $HOME/.weechat/weechat.log && chmod 700 $HOME/.weechat && mkdir $HOME/.weecha
 git clone --depth 1 https://github.com/acidvegas/weechat.git $HOME/weechat
 mv $HOME/weechat/alias.conf $HOME/.weechat/alias.conf && mv $HOME/weechat/scripts/perl/*.pl $HOME/.weechat/perl/autoload/ && mv $HOME/weechat/scripts/python/*.py $HOME/.weechat/python/autoload/
 mkdir $HOME/.weechat/logs
+mkfifo $HOME/.weechat/weechat_fifo
 openssl req -x509 -new -newkey rsa:4096 -sha256 -days 3650 -out $HOME/.weechat/ssl/cert.pem -keyout $HOME/.weechat/ssl/cert.pem
 chmod 400 $HOME/.weechat/ssl/cert.pem
 ```
@@ -122,7 +123,6 @@ docker attach weechat # Detach with CTRL-p CTRL-q
 /set weechat.color.chat_time            235
 /set weechat.color.chat_time_delimiters 235
 /set weechat.color.separator            darkgray
-/set weechat.color.status_name_ssl      white
 /set weechat.look.bar_more_down         "▼"
 /set weechat.look.bar_more_left         "◀"
 /set weechat.look.bar_more_right        "▶"
@@ -188,9 +188,9 @@ docker attach weechat # Detach with CTRL-p CTRL-q
 /set irc.server_default.realname             "04MOST DANGEROUS MOTHERFUCK‮"
 /set irc.server_default.sasl_mechanism       external
 /set irc.server_default.sasl_username        "acidvegas"
-/set irc.server_default.ssl_cert             "%h/ssl/cert.pem"
-/set irc.server_default.ssl_password         "REDACTED"
-/set irc.server_default.ssl_verify           off
+/set irc.server_default.tls_cert             "%h/ssl/cert.pem"
+/set irc.server_default.tls_password         "REDACTED"
+/set irc.server_default.tls_verify           off
 /set irc.server_default.username             "stillfree"
 ```
 
@@ -269,7 +269,6 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /server add gamesurge irc.gamesurge.net
 /server add ircstorm  irc.ircstorm.net/6699      -tls
 /server add malvager  irc.malvager.net/6697      -tls
-/serber add netsec    irc.priv8.chat/6697        -tls
 /server add oftc      irc.oftc.net/6697          -tls
 /server add sandnet   irc.sandngz.net/6697       -tls
 /server add silph     irc.silph.co/6697          -tls
