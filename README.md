@@ -30,13 +30,13 @@
 ###### WeeChat
 ```shell
 weechat -P "alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger,typing" -r "/set weechat.plugin.autoload alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger,typing;/save;/quit"
-rm $HOME/.weechat/weechat.log && chmod 700 $HOME/.weechat && mkdir $HOME/.weechat/ssl
+rm $HOME/.weechat/weechat.log && chmod 700 $HOME/.weechat && mkdir $HOME/.weechat/tls
 git clone --depth 1 https://github.com/acidvegas/weechat.git $HOME/weechat
 mv $HOME/weechat/alias.conf $HOME/.weechat/alias.conf && mv $HOME/weechat/scripts/perl/*.pl $HOME/.weechat/perl/autoload/ && mv $HOME/weechat/scripts/python/*.py $HOME/.weechat/python/autoload/
 mkdir $HOME/.weechat/logs
 mkfifo $HOME/.weechat/weechat_fifo
-openssl req -x509 -new -newkey rsa:4096 -sha256 -days 3650 -out $HOME/.weechat/ssl/cert.pem -keyout $HOME/.weechat/ssl/cert.pem
-chmod 400 $HOME/.weechat/ssl/cert.pem
+openssl req -x509 -new -newkey rsa:4096 -sha256 -days 3650 -out $HOME/.weechat/tls/cert.pem -keyout $HOME/.weechat/tls/cert.pem
+chmod 400 $HOME/.weechat/tls/cert.pem
 ```
 
 ###### Relay
@@ -146,7 +146,6 @@ docker attach weechat # Detach with CTRL-p CTRL-q
 ```
 /set buflist.look.mouse_wheel               off
 /set buflist.look.mouse                     off
-/set fifo.file.path                         "${weechat_data_dir}/weechat_fifo"
 /set irc.look.buffer_switch_autojoin        off
 /set irc.look.buffer_switch_join            on
 /set irc.look.join_auto_add_chantype        on
@@ -184,9 +183,10 @@ docker attach weechat # Detach with CTRL-p CTRL-q
 /set irc.server_default.msg_quit             "G-line: User has been permanently banned from this network."
 /set irc.server_default.nicks                "acidvegas,acid_vegas,acid.vegas,acidvegas_"
 /set irc.server_default.realname             "04MOST DANGEROUS MOTHERFUCK‮"
+/set irc.server_default.sasl_fail            continue
 /set irc.server_default.sasl_mechanism       external
 /set irc.server_default.sasl_username        "acidvegas"
-/set irc.server_default.tls_cert             "%h/ssl/cert.pem"
+/set irc.server_default.tls_cert             "%h/tls/cert.pem"
 /set irc.server_default.tls_password         "REDACTED"
 /set irc.server_default.tls_verify           off
 /set irc.server_default.username             "stillfree"
@@ -345,8 +345,8 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /set relay.network.max_clients 2
 /set relay.network.password ${sec.data.relay}
 /set relay.network.totp_secret ${sec.data.totp}
-/relay sslcertkey
-/relay add ssl.weechat PORT
+/relay tlscertkey
+/relay add tls.weechat PORT
 ```
 
 ---
