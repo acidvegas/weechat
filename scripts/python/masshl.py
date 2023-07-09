@@ -24,7 +24,7 @@ def masshl_cmd_cb(data, buffer, args):
 	channel  = weechat.buffer_get_string(buffer, 'localvar_channel')
 	nicklist = weechat.infolist_get('irc_nick', '', server+','+channel)
 	while weechat.infolist_next(nicklist):
-		nicks.append(weechat.infolist_string(nicklist, 'name')
+		nicks.append(weechat.infolist_string(nicklist, 'name'))
 	weechat.infolist_free(nicklist)
 	del server, channel, nicklist
 	nicks.pop(0)
