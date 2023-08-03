@@ -29,6 +29,7 @@
 ### Setup
 ###### WeeChat
 ```shell
+git clone https://github.com/tat3r/tdfiglet.git && cd tdfiglet && make && sudo make install && cd
 weechat -P "alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger,typing" -r "/set weechat.plugin.autoload alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger,typing;/save;/quit"
 rm $HOME/.weechat/weechat.log && chmod 700 $HOME/.weechat && mkdir $HOME/.weechat/tls
 git clone --depth 1 https://github.com/acidvegas/weechat.git $HOME/weechat
@@ -276,29 +277,31 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /server add wormnet   wormnet1.team17.com
 /server add wtfux     irc.wtfux.org/6697         -tls
 
-/set irc.server.2f30.autojoin      #2f30
-/set weechat.notify.irc.22f30      highlight
-/set irc.server.anope.autojoin     #anope
-/set irc.server.blacknd.autojoin   #blacknd,#chat
-/set irc.server.buttes.autojoin    #gamme
-/set irc.server.efnet.autojoin     #2600,#efnetnews,#exchange,#irc30,#lrh
-/set irc.server.gamesurge.autojoin #worms
-/set weechat.notify.irc.gamesurge  highlight
-/set irc.server.ircstorm.autojoin  #schizophrenia
-/set irc.server.libera.autojoin    #archlinux,#ircv3,#matrix,#music-theory,#python,#raspberrypi,#weechat
-/set weechat.notify.irc.libera     message
-/set irc.server.malvager.autojoin  #malvager
-/set irc.server.netsec.autojoin    #ch@s
-/set irc.server.sandnet.autojoin   #arab
-/set irc.server.silph.autojoin     #ramen
-/set irc.server.twisted.autojoin   #dev,#Twisted
-/set irc.server.unreal.autojoin    #unreal-support
-/set irc.server.unreal.command     /MODE acidvegas -x
-/set irc.server.wormnet.autojoin   #anythinggoes
-/set irc.server.wormnet.password   ELSILRACLIHP
-/set irc.server.wormnet.realname   "48 0 US 3.7.2.1"
-/set weechat.notify.irc.wormnet    highlight
-/set irc.server.wtfux.autojoin     #ED,#wtfux
+/set irc.server.2f30.autojoin        #2f30
+/set weechat.notify.irc.22f30        highlight
+/set irc.server.anope.autojoin       #anope
+/set irc.server.blacknd.autojoin     #blacknd,#chat
+/set irc.server.buttes.autojoin      #gamme
+/set irc.server.efnet.autojoin       #2600,#efnetnews,#exchange,#irc30,#lrh
+/set irc.server.gamesurge.autojoin   #nfo-support,#worms
+/set weechat.notify.irc.gamesurge    highlight
+/set irc.server.ircstorm.autojoin    #schizophrenia
+/set irc.server.libera.autojoin      #archlinux,#ircv3,#matrix,#music-theory,#python,#raspberrypi,#weechat
+/set weechat.notify.irc.libera       message
+/set irc.server.malvager.autojoin    #malvager
+/set irc.server.netsec.autojoin      #ch@s
+/set irc.server.sandnet.autojoin     #arab
+/set irc.server.sandnet.away_check   60
+/set irc.server.silph.autojoin       #ramen
+/set irc.server.supernets.away_check 60
+/set irc.server.twisted.autojoin     #dev,#Twisted
+/set irc.server.unreal.autojoin      #unreal-support
+/set irc.server.unreal.command       /MODE acidvegas -x
+/set irc.server.wormnet.autojoin     #anythinggoes
+/set irc.server.wormnet.password     ELSILRACLIHP
+/set irc.server.wormnet.realname     "48 0 US 3.7.2.1"
+/set weechat.notify.irc.wormnet      highlight
+/set irc.server.wtfux.autojoin       #ED,#wtfux
 ```
 
 ---
