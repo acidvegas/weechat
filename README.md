@@ -414,15 +414,7 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 | `Ctrl + c, v`  | Insert code for reverse color   | `/input insert \x16` |
 | `Ctrl + c, _`  | Insert code for underlined text | `/input insert \x1F` |
 
----
+___
 
-### Todo
-- Information on commands for scripts
-- tdfiglet & curling git for ascii
-- `sudo cpan install Pod::Select` for multiline.pl
-
-## Mirrors
-- [acid.vegas](https://git.acid.vegas/weechat)
-- [GitHub](https://github.com/acidvegas/weechat)
-- [GitLab](https://gitlab.com/acidvegas/weechat)
-- [SuperNETs](https://git.supernets.org/acidvegas/weechat)
+###### Mirrors
+[acid.vegas](https://git.acid.vegas/weechat) • [GitHub](https://github.com/acidvegas/weechat) • [GitLab](https://gitlab.com/acidvegas/weechat) • [SuperNETs](https://git.supernets.org/acidvegas/weechat)
