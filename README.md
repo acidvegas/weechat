@@ -71,6 +71,10 @@ systemctl --user enable weechat-headless
 
 ###### Docker
 ```shell
+
+sudo usermod -aG docker $USER && newgrp docker
+
+
 sudo apt update
 sudo apt install apt-transport-https ca-certificates curl gnupg2 software-properties-common
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
