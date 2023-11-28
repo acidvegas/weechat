@@ -69,28 +69,6 @@ echo -e "[Unit]\nDescription=headless weechat relay service\nAfter=network.targe
 systemctl --user enable weechat-headless
 ```
 
-###### Docker
-```shell
-
-sudo usermod -aG docker $USER && newgrp docker
-
-
-sudo apt update
-sudo apt install apt-transport-https ca-certificates curl gnupg2 software-properties-common
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-sudo apt update
-apt-cache policy docker-ce
-sudo apt install docker-ce
-sudo usermod -aG docker ${USER}
-su - ${USER}
-
-mkdir -p ~/docker/weechat/data
-mkdir -p ~/docker/weechat/config
-docker run -it -d --restart unless-stopped -v "~/docker/weechat/data:/home/user/.weechat" -v "~/docker/weechat/config:/home/user/.config/weechat" --name weechat weechat/weechat:latest-alpine`
-docker attach weechat # Detach with CTRL-p CTRL-q
-```
-
 ---
 
 ### Settings
@@ -274,49 +252,59 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 
 ### Servers
 ```
-/server add 2f30      irc.2f30.org/6697          -tls
-/server add anope     irc.anope.org/6697         -tls
-/server add blcknd    irc.blcknd.net/6697        -tls
-/server add buttes    irc.buttes.org/6697        -tls
-/server add efnet     irc.servercentral.net/9999 -tls
-/server add libera    irc.libera.chat/6697       -tls
+/server add 2f30      irc.2f30.org/6697              -tls
+/server add anope     irc.anope.org/6697             -tls
+/server add blackcatz irc.blackcatz.org/6697         -tls
+/server add blcknd    irc.blcknd.net/6697            -tls
+/server add buttes    irc.buttes.org/6697            -tls
+/server add efnet     irc.servercentral.net/9999     -tls
+/server add libera    irc.libera.chat/6697           -tls
 /server add gamesurge irc.gamesurge.net
-/server add ircstorm  irc.ircstorm.net/6699      -tls
-/server add malvager  irc.malvager.net/6697      -tls
-/server add oftc      irc.oftc.net/6697          -tls
-/server add sandnet   irc.sandngz.net/6697       -tls
-/server add silph     irc.silph.co/6697          -tls
-/server add supernets irc.supernets.org/6697     -tls
-/server add twisted   irc.twistednet.org/6697    -tls
-/server add unreal    irc.unrealircd.org/6697    -tls
+/server add gangnet   irc.gangnet.ru                 -tls
+/server add hackint   irc.hackint.org/6697           -tls
+/server add irc       irc.internetrelaychat.net/6697 -tls
+/server add ircstorm  irc.ircstorm.net/6699          -tls
+/server add malvager  irc.malvager.net/6697          -tls
+/server add oftc      irc.oftc.net/6697              -tls
+/server add sandnet   irc.sandngz.net/6697           -tls
+/server add silph     irc.silph.co/6697              -tls
+/server add supernets irc.supernets.org/6697         -tls
+/server add tcpdirect ircd.chat/6697                 -tls
+/server add terahertz irc.terahertz.net/6697         -tls
+/server add unreal    irc.unrealircd.org/6697        -tls
+/server add wigle     wigle.net                      -tls
 /server add wormnet   wormnet1.team17.com
-/server add wtfux     irc.wtfux.org/6697         -tls
+/server add wtfux     irc.wtfux.org/6697             -tls
 
 /set irc.server.2f30.autojoin        #2f30
 /set weechat.notify.irc.22f30        highlight
 /set irc.server.anope.autojoin       #anope
-/set irc.server.blacknd.autojoin     #blacknd,#chat
+/set irc.serber.blackcatz            #blackcatz
+/set irc.server.blcknd.autojoin      #blcknd,#chat
 /set irc.server.buttes.autojoin      #gamme
 /set irc.server.efnet.autojoin       #2600,#efnetnews,#exchange,#irc30,#lrh
 /set irc.server.gamesurge.autojoin   #nfo-support,#worms
 /set weechat.notify.irc.gamesurge    highlight
+/set irc.server.irc.autojoin         #h4x
 /set irc.server.ircstorm.autojoin    #schizophrenia
 /set irc.server.libera.autojoin      #archlinux,#ircv3,#matrix,#music-theory,#python,#raspberrypi,#weechat
 /set weechat.notify.irc.libera       message
 /set irc.server.malvager.autojoin    #malvager
-/set irc.server.netsec.autojoin      #ch@s
 /set irc.server.sandnet.autojoin     #arab
 /set irc.server.sandnet.away_check   60
 /set irc.server.silph.autojoin       #ramen
 /set irc.server.supernets.away_check 60
-/set irc.server.twisted.autojoin     #dev,#Twisted
-/set irc.server.unreal.autojoin      #unreal-support
+/set irc.server.tcpdirect.autojoin   #tcpdirect
+/set irc.server.terahertz.autojoin   #ix
+/set irc.server.unreal.autojoin      #unreal-support,#superbowl,#syzop-smells
 /set irc.server.unreal.command       /MODE acidvegas -x
+/set irc.server.wigle.autojoin       #wigle
 /set irc.server.wormnet.autojoin     #anythinggoes
 /set irc.server.wormnet.password     ELSILRACLIHP
 /set irc.server.wormnet.realname     "48 0 US 3.7.2.1"
 /set weechat.notify.irc.wormnet      highlight
 /set irc.server.wtfux.autojoin       #ED,#wtfux
+
 ```
 
 ---
