@@ -419,5 +419,4 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 
 ___
 
-###### Mirrors
-[acid.vegas](https://git.acid.vegas/weechat) • [GitHub](https://github.com/acidvegas/weechat) • [GitLab](https://gitlab.com/acidvegas/weechat) • [SuperNETs](https://git.supernets.org/acidvegas/weechat)
+###### Mirrors for this repository: [acid.vegas](https://git.acid.vegas/weechat) • [SuperNETs](https://git.supernets.org/acidvegas/weechat) • [GitHub](https://github.com/acidvegas/weechat) • [GitLab](https://gitlab.com/acidvegas/weechat) • [Codeberg](https://codeberg.org/acidvegas/weechat)
