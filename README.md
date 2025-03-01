@@ -139,7 +139,6 @@ systemctl --user enable weechat-headless
 ###### Settings
 ```
 /set buflist.look.mouse_wheel               off
-/set buflist.look.mouse                     off
 /set irc.look.buffer_switch_autojoin        off
 /set irc.look.buffer_switch_join            on
 /set irc.look.join_auto_add_chantype        on
@@ -168,8 +167,6 @@ systemctl --user enable weechat-headless
 
 ###### IRC
 ```
-/set irc.server_default.anti_flood_prio_high 0
-/set irc.server_default.anti_flood_prio_low  0 
 /set irc.server_default.autorejoin           on
 /set irc.server_default.autorejoin_delay     3
 /set irc.server_default.command_delay        3
