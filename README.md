@@ -291,6 +291,7 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /set irc.server.sandnet.away_check   60
 /set irc.server.silph.autojoin       #ramen
 /set irc.server.supernets.away_check 60
+/irc.server.supernets.anti_flood     0
 /set irc.server.tcpdirect.autojoin   #tcpdirect
 /set irc.server.terahertz.autojoin   #ix
 /set irc.server.unreal.autojoin      #unreal-support,#superbowl,#syzop-smells
