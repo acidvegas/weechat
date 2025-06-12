@@ -276,7 +276,7 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /set irc.server.2f30.autojoin        #2f30
 /set weechat.notify.irc.22f30        highlight
 /set irc.server.anope.autojoin       #anope
-/set irc.serber.blackcatz            #blackcatz
+/set irc.server.blackcatz            #blackcatz
 /set irc.server.blcknd.autojoin      #blcknd,#chat
 /set irc.server.buttes.autojoin      #gamme
 /set irc.server.efnet.autojoin       #2600,#efnetnews,#exchange,#irc30,#lrh
