@@ -253,7 +253,6 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /server add anope     irc.anope.org/6697             -tls
 /server add blackcatz irc.blackcatz.org/6697         -tls
 /server add blcknd    irc.blcknd.network/6697        -tls
-/server add buttes    irc.buttes.org/6697            -tls
 /server add efnet     irc.servercentral.net/9999     -tls
 /server add libera    irc.libera.chat/6697           -tls
 /server add gamesurge irc.gamesurge.net
@@ -269,7 +268,7 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /server add tcpdirect ircd.chat/6697                 -tls
 /server add terahertz irc.terahertz.net/6697         -tls
 /server add unreal    irc.unrealircd.org/6697        -tls
-/server add wigle     wigle.net                      -tls
+/server add wigle     wigle.net
 /server add wormnet   wormnet1.team17.com
 /server add wtfux     irc.wtfux.org/6697             -tls
 
