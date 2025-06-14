@@ -1,13 +1,8 @@
 # WeeChat
-> backup of me weechat setup
 
 ![](preview.png)
 
 ## Table of Contents
-- [Setup](#setup)
-  - [WeeChat](#weechat)
-  - [Relay](#relay)
-  - [Docker](#docker)
 - [Settings](#settings)
   - [Appearance](#appearance)
   - [Settings](#appearance)
@@ -23,51 +18,6 @@
 - [Relay](#relay)
 - [Keys](#keys)
 - [Todo](#todo)
-
----
-
-### Setup
-###### Repository for Debian (because Debian is always 7 versions behind to deem themself "stable")
-```shell
-sudo mkdir /root/.gnupg
-sudo chmod 700 /root/.gnupg
-sudo mkdir -p /usr/share/keyrings
-sudo gpg --no-default-keyring --keyring /usr/share/keyrings/weechat-archive-keyring.gpg --keyserver hkps://keys.openpgp.org --recv-keys 11E9DE8848F2B65222AA75B8D1820DB22A11534E
-echo "deb [signed-by=/usr/share/keyrings/weechat-archive-keyring.gpg] https://weechat.org/debian bullseye main" | sudo tee /etc/apt/sources.list.d/weechat.list
-sudo apt-get update
-sudo apt-get install weechat-curses weechat-plugins weechat-python weechat-perl
-```
-
-###### WeeChat
-```shell
-git clone https://github.com/tat3r/tdfiglet.git && cd tdfiglet && make && sudo make install && cd
-weechat -P "alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger,typing" -r "/set weechat.plugin.autoload alias,buflist,charset,exec,fifo,fset,irc,logger,perl,python,relay,script,trigger,typing;/save;/quit"
-rm $HOME/.weechat/weechat.log && chmod 700 $HOME/.weechat && mkdir $HOME/.weechat/tls
-git clone --depth 1 https://github.com/acidvegas/weechat.git $HOME/weechat
-mv $HOME/weechat/alias.conf $HOME/.weechat/alias.conf && mv $HOME/weechat/scripts/perl/*.pl $HOME/.weechat/perl/autoload/ && mv $HOME/weechat/scripts/python/*.py $HOME/.weechat/python/autoload/
-mkdir $HOME/.weechat/logs
-mkfifo $HOME/.weechat/weechat_fifo
-openssl req -x509 -new -newkey rsa:4096 -sha256 -days 3650 -out $HOME/.weechat/tls/cert.pem -keyout $HOME/.weechat/tls/cert.pem
-chmod 400 $HOME/.weechat/tls/cert.pem
-```
-
-###### Relay
-```shell
-certbot certonly --standalone -d chat.acid.vegas -m acid.vegas@acid.vegas
-echo -e "[Unit]\nDescription=cerbot renewal\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/certbot renew -n --quiet --agree-tos --deploy-hook /home/acidvegas/.local/share/weechat/renew" > /etc/systemd/system/certbot.service
-echo -e "[Unit]\nDescription=cerbot renewal timer\n\n[Timer]\nOnCalendar=0/12:00:00\nRandomizedDelaySec=1h\nPersistent=true\n\n[Install]\nWantedBy=timers.target" > /etc/systemd/system/certbot.timer
-systemctl enable certbot.timer && systemctl start certbot.timer
-
-echo "#!/bin/bash" > $HOME/.local/share/weechat/renew
-echo "cat /etc/letsencrypt/live/chat.acid.vegas/fullchain.pem /etc/letsencrypt/live/chat.acid.vegas/privkey.pem > $HOME/.config/weechat/tls/relay.pem" >> $HOME/.local/share/weechat/renew
-echo "chown -R acidvegas:acidvegas $HOME/.weechat/tls/relay.pem && chmod 400 $HOME/.confg/weechat/tls/relay.pem" >> $HOME/.local/share/weechat/renew
-echo "printf \'%b\' \'*/relay tlscertkey\n\' > /run/user/1000/weechat/weechat_fifo" >> $HOME/.local/share/weechat/renew
-chmod +x $HOME/.local/share/weechat/renew
-
-mkdir -p $HOME/.config/systemd/user
-echo -e "[Unit]\nDescription=headless weechat relay service\nAfter=network.target\n\n[Service]\nType=forking\nExecStart=/usr/bin/weechat-headless --daemon\n\n[Install]\nWantedBy=default.target" > $HOME/.config/systemd/user/weechat-headless.service
-systemctl --user enable weechat-headless
-```
 
 ---
 
@@ -277,15 +227,13 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /set weechat.notify.irc.22f30        highlight
 /set irc.server.anope.autojoin       #anope
 /set irc.serber.blackcatz            #blackcatz
-/set irc.server.blcknd.autojoin      #blcknd,#chat
+/set irc.server.blcknd.autojoin      #blcknd
 /set irc.server.buttes.autojoin      #gamme
 /set irc.server.efnet.autojoin       #2600,#efnetnews,#exchange,#irc30,#lrh
-/set irc.server.gamesurge.autojoin   #nfo-support,#worms
+/set irc.server.gamesurge.autojoin   #worms
 /set weechat.notify.irc.gamesurge    highlight
 /set irc.server.irc.autojoin         #h4x
 /set irc.server.ircstorm.autojoin    #schizophrenia
-/set irc.server.libera.autojoin      #archlinux,#ircv3,#matrix,#music-theory,#python,#raspberrypi,#weechat
-/set weechat.notify.irc.libera       message
 /set irc.server.malvager.autojoin    #malvager
 /set irc.server.sandnet.autojoin     #arab
 /set irc.server.sandnet.away_check   60
@@ -301,7 +249,6 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 /set irc.server.wormnet.realname     "48 0 US 3.7.2.1"
 /set weechat.notify.irc.wormnet      highlight
 /set irc.server.wtfux.autojoin       #ED,#wtfux
-
 ```
 
 ---
@@ -337,6 +284,11 @@ See [alias.conf](https://github.com/acidvegas/weechat/blob/master/alias.conf) fi
 ```
 /proxy add tor socks5 127.0.0.1 9050
 /set irc.server.CHANGEME.proxy tor
+
+/proxy add dirtysocks socks5 example.dirtysocks.com 8080 myuser mypass
+/set irc.server.CHANGEME.proxy dirtysocks
+
+/set irc.server_default.proxy tor
 ```
 
 ---

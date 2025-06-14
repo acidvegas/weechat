@@ -1,0 +1,6 @@
+[Unit]
+Description=cerbot renewal
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/certbot renew -n --quiet --agree-tos --deploy-hook /home/agent/.local/share/weechat/renew

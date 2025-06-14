@@ -1,0 +1,54 @@
+#!/bin/sh
+# poor mans firewall (weechat edition) - developed by acidvegas (https://git.acid.vegas/weechat)
+
+set -xev
+
+# Configuration
+PORT_SSH='22'
+PORT_RELAY='2222'
+
+# Kernel hardening settings
+mkdir -p /etc/sysctl.d
+{
+  printf "net.ipv4.conf.all.accept_source_route = 0\n"
+  printf "net.ipv6.conf.all.accept_source_route = 0\n"
+  printf "net.ipv4.conf.all.rp_filter = 1\n"
+  printf "net.ipv4.conf.default.rp_filter = 1\n"
+  printf "net.ipv4.conf.all.accept_redirects = 0\n"
+  printf "net.ipv6.conf.all.accept_redirects = 0\n"
+  printf "net.ipv4.conf.default.accept_redirects = 0\n"
+  printf "net.ipv6.conf.default.accept_redirects = 0\n"
+  printf "net.ipv4.conf.all.log_martians = 1\n"
+  printf "kernel.randomize_va_space = 2\n"
+  printf "fs.suid_dumpable = 0\n"
+} > /etc/sysctl.d/99-custom-hardening.conf
+
+# Apply hardening settings
+sysctl -p /etc/sysctl.d/99-custom-hardening.conf
+
+# Flush existing rules
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+
+# Default chain policies
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+
+# Common Firewall rules
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type echo-request     -j DROP # Disable response to ping requests
+iptables -A INPUT -p icmp --icmp-type port-unreachable -j DROP
+iptables -A INPUT -i lo -j ACCEPT
+
+# Allow access
+iptables -A INPUT -p tcp --dport $PORT_SSH -j ACCEPT
+iptables -A INPUT -p tcp --dport $PORT_RELAY -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+
+# Save rules
+iptables-save > /etc/iptables/iptables.rules

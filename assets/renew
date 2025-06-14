@@ -1,0 +1,6 @@
+#!/bin/bash
+# WeeChat Relay Certificate Renewal Script - Developed by acidvegas (https://git.acid.vegas/weechat)
+RELAY_DOMAIN=$1
+cat /etc/letsencrypt/live/$RELAY_DOMAIN/fullchain.pem /etc/letsencrypt/live/$RELAY_DOMAIN/privkey.pem > /home/agent/.config/weechat/tls/relay.pem
+chown -R agent:agent /home/agent/.weechat/tls/relay.pem && chmod 400 /home/agent/.confg/weechat/tls/relay.pem
+printf '%b' '*/relay tlscertkey\n' > /home/agent/.local/share/weechat/FIFO
