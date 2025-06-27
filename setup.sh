@@ -47,8 +47,8 @@ configure_relay() {
     RELAY_DOMAIN=big.dick.acid.vegas
     CONTAINER_IP=$(incus list | grep weechat-container | awk '{print $6}')
     
-    incus config device add weechat-container weechat-certbot-port proxy listen=tcp:0.0.0.0:$RELAY_PORT connect=tcp:$CONTAINER_IP:$RELAY_PORT
-    incus config device add weechat-container weechat-relay-port proxy   listen=tcp:0.0.0.0:80          connect=tcp:$CONTAINER_IP:80
+    incus config device add weechat-container weechat-certbot-port proxy listen=tcp:0.0.0.0:80          connect=tcp:$CONTAINER_IP:80
+    incus config device add weechat-container weechat-relay-port   proxy listen=tcp:0.0.0.0:$RELAY_PORT connect=tcp:$CONTAINER_IP:$RELAY_PORT
 
     incus file push assets/renew weechat-container/home/agent/.local/share/weechat/renew
     incus exec weechat-container -- chown agent:agent /home/agent/.local/share/weechat/renew
