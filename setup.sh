@@ -3,6 +3,8 @@
 
 set -xev
 
+# alias irc='incus exec weechat-container -- sudo -u agent screen -rx irc'
+
 create_container() {
     incus storage create weechat-pool dir
     incus launch images:debian/12 weechat-container -s weechat-pool
