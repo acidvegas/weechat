@@ -1,34 +1,26 @@
-# -*- coding: utf-8 -*-
-#
-# autosuggest.py - ZSH-style ghost hint autosuggestions for WeeChat
-#
-# Usage:
-#   /script load autosuggest.py
-#   Press Right Arrow to accept suggestion
-#
-# Author: acidvegas
-# License: ISC
+#!/usr/bin/env python3
+# ZSH-style ghost hint autosuggestions for commands - developed by acidvegas in python (https://github.com/acidvegas/weechat)
 
 import weechat
 import re
 
-SCRIPT_NAME = 'autosuggest'
-SCRIPT_AUTHOR = 'acidvegas'
+SCRIPT_NAME    = 'autosuggest'
+SCRIPT_AUTHOR  = 'acidvegas'
 SCRIPT_VERSION = '1.2'
 SCRIPT_LICENSE = 'ISC'
-SCRIPT_DESC = 'ZSH-style ghost hint autosuggestions for commands'
+SCRIPT_DESC    = 'ZSH-style ghost hint autosuggestions for commands'
 
 # Global state
 current_suggestion = ''
-command_history = []
-channel_history = set()
-hooks = []
+command_history    = []
+channel_history    = set()
+hooks              = []
 
 # Default settings
 settings = {
-    'color': ('240', 'Color for ghost hint'),
-    'accept_key': ('right', 'Key to accept suggestion (right, tab, or both)'),
-    'max_history': ('5000', 'Maximum command history entries'),
+    'color'       : ('240', 'Color for ghost hint'),
+    'accept_key'  : ('right', 'Key to accept suggestion (right, tab, or both)'),
+    'max_history' : ('5000', 'Maximum command history entries'),
 }
 
 
