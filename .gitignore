@@ -1,0 +1,5 @@
+# Weechat Container - Developed by acidvegas (https://git.acid.vegas/weechat)
+# weechat/.gitignore
+
+assets/tls/
+data/
