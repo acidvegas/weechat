@@ -45,6 +45,9 @@ def list_cb(data, command, rc, out, err):
 		return weechat.WEECHAT_RC_OK
 	listing = jobs.pop(data)
 	buffer, name = data.split(' ', 1)
+	if name.startswith('search '):
+		search(buffer, name[7:].strip(), listing)
+		return weechat.WEECHAT_RC_OK
 	path = resolve(name, listing)
 	if not path:
 		weechat.prnt(buffer, '%spump: no art named \'%s\'' % (weechat.prefix('error'), name))
@@ -64,7 +67,17 @@ def art_cb(data, command, rc, out, err):
 		return weechat.WEECHAT_RC_OK
 	for line in art.replace('\r', '').splitlines():
 		weechat.command(buffer, '/msg * \x0f' + line + '\x0f')
+	weechat.prnt(buffer, 'the ascii gods have chosen... %s%s' % (weechat.color('cyan'), path))
 	return weechat.WEECHAT_RC_OK
+
+
+def search(buffer, query, listing):
+	results = [p.strip() for p in listing.splitlines() if query.lower() in p.strip().rsplit('/', 1)[-1].lower()]
+	if not results:
+		weechat.prnt(buffer, '%spump: no results found (%s)' % (weechat.prefix('error'), query))
+	for i, path in enumerate(results[:10], 1):
+		dir, _, name = path.rpartition('/')
+		weechat.prnt(buffer, '[%s%02d%s] %s%s' % (weechat.color('lightmagenta'), i, weechat.color('reset'), name, ' %s(%s)' % (weechat.color('darkgray'), dir) if dir else ''))
 
 
 def pump_cmd(data, buffer, args):
@@ -76,4 +89,4 @@ def pump_cmd(data, buffer, args):
 	return weechat.WEECHAT_RC_OK
 
 
-weechat.hook_command('pump', 'send ircart to the current channel', '<name> || random [<dir>|<word>]', 'name: art name, e.g. e (plays reaction/e)\nrandom: random art, from <dir> if given, else with <word> in its name','', 'pump_cmd', '')
+weechat.hook_command('pump', 'send ircart to the current channel', '<name> || random [<dir>|<word>] || search <word>', 'name: art name, e.g. e (plays reaction/e)\nrandom: random art, from <dir> if given, else with <word> in its name\nsearch: list up to 10 art names containing <word>','', 'pump_cmd', '')
