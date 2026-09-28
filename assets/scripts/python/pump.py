@@ -1,8 +1,10 @@
 # pump.py - /pump <name> sends ircart from git.supernets.org/ircart/ircart to the current buffer
+import random
 import weechat
 
 SCRIPT_NAME = 'pump'
 BASE = 'https://git.supernets.org/ircart/ircart/raw/branch/master/ircart'
+EXCLUDE = ('big', 'birds', 'doc', 'gorf', 'hang', 'nazi', 'pokemon')
 
 weechat.register(SCRIPT_NAME, 'brandon', '1.0', 'MIT', 'pump ircart into channel', '', '')
 
@@ -14,7 +16,19 @@ def fetch(url, cb, data):
 	weechat.hook_process('url:' + url, 30000, cb, data)
 
 
+def pick_random(query, paths):
+	if not query:
+		pool = [p for p in paths if '/' not in p or p.split('/', 1)[0] not in EXCLUDE]
+	elif any(p.startswith(query + '/') for p in paths):
+		pool = [p for p in paths if p.startswith(query + '/')]
+	else:
+		pool = [p for p in paths if query.lower() in p.rsplit('/', 1)[-1].lower()]
+	return random.choice(pool) if pool else None
+
+
 def resolve(name, listing):
+	if name == 'random' or name.startswith('random '):
+		return pick_random(name[6:].strip(), [p.strip() for p in listing.splitlines() if p.strip()])
 	exact = first = None
 	for path in listing.splitlines():
 		path = path.strip()
@@ -62,4 +76,4 @@ def pump_cmd(data, buffer, args):
 	return weechat.WEECHAT_RC_OK
 
 
-weechat.hook_command('pump', 'send ircart to the current channel', '<name>', 'name: art name, e.g. e (plays reaction/e)', '', 'pump_cmd', '')
+weechat.hook_command('pump', 'send ircart to the current channel', '<name> || random [<dir>|<word>]', 'name: art name, e.g. e (plays reaction/e)\nrandom: random art, from <dir> if given, else with <word> in its name','', 'pump_cmd', '')
