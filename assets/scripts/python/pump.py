@@ -49,7 +49,7 @@ def art_cb(data, command, rc, out, err):
 		weechat.prnt(buffer, '%spump: failed to fetch %s' % (weechat.prefix('error'), path))
 		return weechat.WEECHAT_RC_OK
 	for line in art.replace('\r', '').splitlines():
-		weechat.command(buffer, '/msg * ' + (line or ' '))
+		weechat.command(buffer, '/msg * \x0f' + line + '\x0f')
 	return weechat.WEECHAT_RC_OK
 
 
