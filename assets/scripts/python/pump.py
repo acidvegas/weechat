@@ -6,7 +6,7 @@ SCRIPT_NAME = 'pump'
 BASE = 'https://git.supernets.org/ircart/ircart/raw/branch/master/ircart'
 EXCLUDE = ('big', 'birds', 'doc', 'gorf', 'hang', 'nazi', 'pokemon')
 
-weechat.register(SCRIPT_NAME, 'brandon', '1.0', 'MIT', 'pump ircart into channel', '', '')
+weechat.register(SCRIPT_NAME, 'acidvegas', '1.0', 'MIT', 'pump ircart into channel', '', '')
 
 jobs = {}
 
