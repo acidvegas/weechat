@@ -1,4 +1,5 @@
 # pump.py - /pump <name> sends ircart from git.supernets.org/ircart/ircart to the current buffer
+import itertools
 import random
 import weechat
 
@@ -9,9 +10,11 @@ EXCLUDE = ('big', 'birds', 'doc', 'gorf', 'hang', 'nazi', 'pokemon')
 weechat.register(SCRIPT_NAME, 'acidvegas', '1.0', 'MIT', 'pump ircart into channel', '', '')
 
 jobs = {}
+ids  = itertools.count()
 
 
 def fetch(url, cb, data):
+	data = '%d %s' % (next(ids), data)
 	jobs[data] = ''
 	weechat.hook_process('url:' + url, 30000, cb, data)
 
@@ -44,7 +47,7 @@ def list_cb(data, command, rc, out, err):
 	if rc == weechat.WEECHAT_HOOK_PROCESS_RUNNING:
 		return weechat.WEECHAT_RC_OK
 	listing = jobs.pop(data)
-	buffer, name = data.split(' ', 1)
+	_, buffer, name = data.split(' ', 2)
 	if name.startswith('search '):
 		search(buffer, name[7:].strip(), listing)
 		return weechat.WEECHAT_RC_OK
@@ -61,7 +64,7 @@ def art_cb(data, command, rc, out, err):
 	if rc == weechat.WEECHAT_HOOK_PROCESS_RUNNING:
 		return weechat.WEECHAT_RC_OK
 	art = jobs.pop(data)
-	buffer, path = data.split(' ', 1)
+	_, buffer, path = data.split(' ', 2)
 	if rc != 0 or not art:
 		weechat.prnt(buffer, '%spump: failed to fetch %s' % (weechat.prefix('error'), path))
 		return weechat.WEECHAT_RC_OK
